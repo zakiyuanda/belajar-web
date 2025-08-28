@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/zakiyuanda/belajar-web/issues"
   },
-  "homepage": "https://github.com/zakiyuanda/belajar-web#readme"
+  "homepage": "https://github.com/zakiyuanda/belajar-web#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "prisma": "^6.15.0"
+  }
 }
