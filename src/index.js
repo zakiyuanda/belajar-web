@@ -45,6 +45,26 @@ app.delete('/products/:id', async (req, res) => {
     res.send({ message: 'Data buku berhasil dihapus' });
 });
 
+app.put('/products/:id', async (req, res) => {
+    const productId = parseInt(req.params.id);
+    const updatedProductData = req.body;
+    const product = await prisma.product.update({
+        where: { id: productId },
+        data: {
+            judul: updatedProductData.judul,
+            pengarang: updatedProductData.pengarang,
+            penerbit: updatedProductData.penerbit,
+            tahunTerbit: updatedProductData.tahunTerbit,
+            gambar: updatedProductData.gambar
+        }
+    });
+    res.send({
+        message: 'Data buku berhasil diperbarui', 
+        data: product
+    });
+});
+    
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
