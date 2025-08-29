@@ -37,7 +37,13 @@ app.post('/products', async (req, res) => {
     }); 
 }); 
 
-
+app.delete('/products/:id', async (req, res) => {
+    const productId = parseInt(req.params.id);
+    await prisma.product.delete({
+        where: { id: productId }
+    });
+    res.send({ message: 'Data buku berhasil dihapus' });
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
