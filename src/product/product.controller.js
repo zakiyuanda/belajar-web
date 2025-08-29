@@ -52,18 +52,16 @@ router.delete("/:id", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {  
-  const idn =parseInt(req.params.id);
+  const id =parseInt(req.params.id);
   const productdata = await req.body;
-
-  if(!productdata.name || !productdata.description || !productdata.price || !productdata.image) {
-    return res.status(400).send({ message: "All fields are required" });
+  if (!(productdata.judul && productdata.pengarang && productdata.penerbit && productdata.tahunTerbit && productdata.gambar)) {
+      return res.status(400).send({ message: "All fields are required" });
   }
-
-  const product = await editproduct(parseInt(idn), productdata);
-  res.send({
-    data: product,
-    message: "Product updated successfully",
-  });
+  const product = await editproduct(parseInt(id), productdata);
+    res.send({
+        data: product,
+        message: "Product put successfully",
+    });
 });
 
 router.patch("/:id", async (req, res) => {
