@@ -1,8 +1,5 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const { PrismaClient } = require('../src/generated/prisma');
-
-const prisma = new PrismaClient();
+const express = require("express");
+const dotenv = require("dotenv");
 const app = express();
 
 dotenv.config();
@@ -11,61 +8,14 @@ const PORT = process.env.PORT;
 
 app.use(express.json());
 
-app.get('/api', (req, res) => {
-    res.send('Selamat datang di aplikasi CRUD Buku!');
+app.get("/api", (req, res) => {
+    res.send("Welcome to Express API");
 });
 
-app.get('/products', async (req, res) => { 
-    const products = await prisma.product.findMany();
-    res.send(products);
-});     
+const productController = require('./product/product.controller');
 
-app.post('/products', async (req, res) => {
-    const newProductData = req.body;
-    const product = await prisma.product.create({
-        data: {
-            judul: newProductData.judul,
-            pengarang: newProductData.pengarang,
-            penerbit: newProductData.penerbit,
-            tahunTerbit: newProductData.tahunTerbit,
-            gambar: newProductData.gambar
-        }
-    });
-    res.send({
-        message: 'Data buku berhasil ditambahkan', 
-        data: product
-    }); 
-}); 
-
-app.delete('/products/:id', async (req, res) => {
-    const productId = parseInt(req.params.id);
-    await prisma.product.delete({
-        where: { id: productId }
-    });
-    res.send({ message: 'Data buku berhasil dihapus' });
-});
-
-app.put('/products/:id', async (req, res) => {
-    const productId = parseInt(req.params.id);
-    const updatedProductData = req.body;
-    const product = await prisma.product.update({
-        where: { id: productId },
-        data: {
-            judul: updatedProductData.judul,
-            pengarang: updatedProductData.pengarang,
-            penerbit: updatedProductData.penerbit,
-            tahunTerbit: updatedProductData.tahunTerbit,
-            gambar: updatedProductData.gambar
-        }
-    });
-    res.send({
-        message: 'Data buku berhasil diperbarui', 
-        data: product
-    });
-});
-
-
+app.use('/products', productController); 
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  console.log("Express API runnning in port: " + PORT);
 });
