@@ -10,11 +10,6 @@ const { getallproducts,
     } = require("./product.service");
 const { parse } = require("dotenv");
 
-router.get("/", async (req, res) => {
-  const products = await getallproducts(); 
-  res.send(products);
-});
-
 router.get("/:id", async (req, res) => {
     try{
         const productid = parseInt(req.params.id);
