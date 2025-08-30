@@ -20,6 +20,7 @@ router.get("/:judul", async (req, res) => {
         const bookname = req.params.judul; 
         const product = await getProductByName(bookname);
         console.log(bookname);   
+
         res.send(product);
     } catch (err) {
         res.status(400).send(err.message);
