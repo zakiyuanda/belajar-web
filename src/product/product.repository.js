@@ -12,6 +12,13 @@ const findproductbyid = async (id) => {
     return product;
 }
 
+const findProductByName = async (judul) => {
+    const product = await prisma.product.findUnique({
+        where: { judul: judul },
+    });
+    return product;
+} 
+
 const insertproduct = async (newproducts) => {
     const product = await prisma.product.create({
         data: {
@@ -52,4 +59,5 @@ module.exports = {
     insertproduct,
     deleteproductbyid,
     editproductbyid,
+    findProductByName,
 };

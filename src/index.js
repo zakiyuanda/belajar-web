@@ -9,7 +9,7 @@ const PORT = process.env.PORT;
 app.use(express.json());
 
 app.get("/api", (req, res) => {
-    res.send("Welcome to Express API");
+    res.send("Selamat datang di API CRUD Buku");
 });
 
 const productController = require('./product/product.controller');

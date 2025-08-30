@@ -3,25 +3,32 @@ const prisma = require("../db");
 const router= express.Router();
 
 const { getallproducts, 
-        getproductbyid, 
         createproduct, 
         deleteproduct,
         editproduct,
+        getProductByName,
     } = require("./product.service");
 const { parse } = require("dotenv");
 
-router.get("/:id", async (req, res) => {
-    try{
-        const productid = parseInt(req.params.id);
-        const product = await getproductbyid(parseInt(productid));
+router.get("/", async (req, res) => {
+  const products = await getallproducts(); 
+  res.send(products);
+});
+
+router.get("/:judul", async (req, res) => {
+    try {
+        const bookname = req.params.judul; 
+        const product = await getProductByName(bookname);
+        console.log(bookname);   
+
         res.send(product);
-    }
-    catch (err) {
+    } catch (err) {
         res.status(400).send(err.message);
+        console.log(err);
     }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", async (req, res) => { 
     try { 
         const newproducts = await req.body;
         const product = await createproduct(newproducts);
@@ -47,18 +54,16 @@ router.delete("/:id", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {  
-  const idn =parseInt(req.params.id);
+  const id =parseInt(req.params.id);
   const productdata = await req.body;
-
-  if(!productdata.name || !productdata.description || !productdata.price || !productdata.image) {
-    return res.status(400).send({ message: "All fields are required" });
+  if (!productdata.judul || !productdata.pengarang || !productdata.penerbit || !productdata.tahunTerbit || !productdata.gambar) {
+      return res.status(400).send({ message: "All fields are required" });
   }
-
-  const product = await editproduct(parseInt(idn), productdata);
-  res.send({
-    data: product,
-    message: "Product updated successfully",
-  });
+  const product = await editproduct(parseInt(id), productdata);
+    res.send({
+        data: product,
+        message: "Product put successfully",
+    });
 });
 
 router.patch("/:id", async (req, res) => {
