@@ -3,10 +3,10 @@ const prisma = require("../db");
 const router= express.Router();
 
 const { getallproducts, 
-        getproductbyid, 
         createproduct, 
         deleteproduct,
         editproduct,
+        getProductByName,
     } = require("./product.service");
 const { parse } = require("dotenv");
 
@@ -15,18 +15,19 @@ router.get("/", async (req, res) => {
   res.send(products);
 });
 
-router.get("/:id", async (req, res) => {
-    try{
-        const productid = parseInt(req.params.id);
-        const product = await getproductbyid(parseInt(productid));
+router.get("/:judul", async (req, res) => {
+    try {
+        const bookname = req.params.judul; 
+        const product = await getProductByName(bookname);
+        console.log(bookname);   
         res.send(product);
-    }
-    catch (err) {
+    } catch (err) {
         res.status(400).send(err.message);
+        console.log(err);
     }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", async (req, res) => { 
     try { 
         const newproducts = await req.body;
         const product = await createproduct(newproducts);

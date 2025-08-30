@@ -16,9 +16,20 @@ datasource db {
 
 model Product {
   id          Int      @id @default(autoincrement())
-  judul       String
+  judul       String   @unique
   pengarang   String
   penerbit    String
-  tahunTerbit Int
   gambar      String
+  harga       Int
+
+  @@index([judul])
+}
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  role      String
+  name      String
+  
+  @@index([username])
 }

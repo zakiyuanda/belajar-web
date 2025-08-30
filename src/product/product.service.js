@@ -5,6 +5,7 @@ const { findproductbyid,
         insertproduct, 
         deleteproductbyid, 
         editproductbyid,
+        findProductByName,
     } = require("./product.repository");
 
 const getallproducts = async () => {
@@ -17,6 +18,14 @@ const getproductbyid = async (id) => {
     const product = await findproductbyid(id);
     if (!product) {
         throw Error("Product not found");
+    }
+    return product;
+};
+
+const getProductByName = async (judul) => {
+    const product = await findProductByName(judul);
+    if (!product) {
+        throw Error("Product is not exists");
     }
     return product;
 };
@@ -43,4 +52,5 @@ module.exports = {
     createproduct,
     deleteproduct,
     editproduct,
+    getProductByName,
 };
